@@ -32,6 +32,7 @@
     "lib/startup.js",
     "cordis.patch.yml",
     "presets/standard.patch.yml",
+    "presets/planner-architect.patch.yml",
     "presets/ptc.patch.yml",
     "presets/minimal.patch.yml",
     "presets/cordis.patch.yml",
@@ -43,6 +44,7 @@
       "patch": [
         "./cordis.patch.yml",
         "./presets/standard.patch.yml",
+        "./presets/planner-architect.patch.yml",
         "./presets/ptc.patch.yml",
         "./presets/minimal.patch.yml",
         "./presets/cordis.patch.yml"
