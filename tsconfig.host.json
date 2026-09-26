@@ -437,6 +437,7 @@
     { "path": "./packages/workflow/workflow-ptc" },
     { "path": "./packages/workflow/tool-workflow" },
     { "path": "./packages/workflow/tool-ralph" },
+    { "path": "./packages/workflow/tool-coding-harness" },
     { "path": "./packages/webhook/webhook" },
     { "path": "./packages/webhook/webhook-github" },
     { "path": "./packages/todo/tool-todo" },

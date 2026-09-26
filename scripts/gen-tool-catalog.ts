@@ -74,6 +74,7 @@ import * as ToolWeb from '@deepseek-ai/dsh-tool-web'
 import WorkflowEngine from '@deepseek-ai/dsh-workflow'
 import type { WorkflowRun, WorkflowStartRequest } from '@deepseek-ai/dsh-workflow'
 import * as ToolRalph from '@deepseek-ai/dsh-tool-ralph'
+import * as ToolCodingHarness from '@deepseek-ai/dsh-tool-coding-harness'
 import * as ToolWorkflow from '@deepseek-ai/dsh-tool-workflow'
 import * as ToolWorkspaceDependencies from '@deepseek-ai/dsh-tool-workspace-dependencies'
 import { githubSlug } from './verify-md-links.ts'
@@ -480,6 +481,21 @@ const TOOL_PACKAGES: ToolPackage[] = [
     },
     note:
       'The lsp tool keeps provider selection and language-server subprocesses behind ctx.lsp, so its model-visible schema stays stable across providers. Requires a registered provider (e.g. `@deepseek-ai/dsh-lsp-stdio`) at runtime; without one, a query returns the structured `LSP_UNAVAILABLE` error rather than changing the schema.',
+  },
+  {
+    pkg: '@deepseek-ai/dsh-tool-coding-harness',
+    dir: 'tool-coding-harness',
+    source: 'packages/workflow/tool-coding-harness/src/index.ts',
+    requires: ['ctx.tools', 'ctx.workflowEngine', 'ctx.subagents', 'ctx.systemPrompt', 'a calling Agent (exec.agent owns the workflow)'],
+    writes: ['tool/call', 'tool/result', 'workflow and child session events during execution'],
+    async mount(ctx) {
+      await ctx.plugin(SubagentRuntime)
+      registerCatalogSubagentProvider(ctx, 'mock')
+      await ctx.plugin(CatalogWorkflowEngine)
+      await ctx.plugin(ToolCodingHarness, { subagentProvider: 'mock' })
+    },
+    note:
+      'Runs read-only planner and architect stages before an explicit approval handoff; the approved call then starts the coder stage with structured reports.',
   },
   {
     pkg: '@deepseek-ai/dsh-tool-ralph',

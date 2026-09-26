@@ -122,6 +122,12 @@
                   provider: spawn
               - id: tool-workflow
                 name: '@deepseek-ai/dsh-tool-workflow'
+              - id: tool-coding-harness
+                name: '@deepseek-ai/dsh-tool-coding-harness'
+                config:
+                  subagentProvider: spawn
+                  maxAgents: 3
+                  maxHandoffChars: 16384
               - id: tool-ralph
                 name: '@deepseek-ai/dsh-tool-ralph'
                 config:
