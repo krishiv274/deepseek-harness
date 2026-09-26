@@ -14,7 +14,12 @@ type CodingHarnessRowProps = Parameters<typeof CodingHarnessRow>[0]
 const t: CodingHarnessRowProps['t'] = makeTranslate(zh, commonZh)
 afterEach(cleanup)
 
-const report = (status: 'awaiting-approval' | 'complete' | 'blocked'): string => JSON.stringify({ status })
+const report = (status: 'awaiting-approval' | 'complete' | 'blocked'): string => JSON.stringify({
+  status,
+  planner: {},
+  architect: {},
+  ...(status === 'complete' ? { coder: {} } : {}),
+})
 
 function resultNode(text: string): ToolResultNode {
   return {
@@ -46,6 +51,11 @@ describe('CodingHarnessRow', () => {
     render(<CodingHarnessRow {...rowProps(resultNode(report(status)))} />)
     expect(screen.getByText('运行编码工作流')).toBeTruthy()
     expect(screen.getByText(label)).toBeTruthy()
+    expect(screen.getByText('规划').parentElement?.dataset.stageStatus).toBe('complete')
+    expect(screen.getByText('架构').parentElement?.dataset.stageStatus)
+      .toBe(status === 'blocked' ? 'blocked' : 'complete')
+    expect(screen.getByText('编码').parentElement?.dataset.stageStatus)
+      .toBe(status === 'complete' ? 'complete' : status === 'blocked' ? 'pending' : 'current')
   })
 
   it('registers the coding_harness keyed tool view', () => {
