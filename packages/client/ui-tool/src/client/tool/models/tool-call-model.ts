@@ -93,6 +93,7 @@ const TOOL_TITLE_KEYS: Record<string, ToolTitleKey> = {
   cordis_inspect_self: 'tool.title.inspectPlugins',
   workflow: 'tool.title.workflow',
   ralph: 'tool.title.ralph',
+  coding_harness: 'tool.title.codingHarness',
   session_event_read: 'tool.title.readEvent',
   session_event_search: 'tool.title.searchEvents',
   session_event_trace: 'tool.title.traceEvent',
