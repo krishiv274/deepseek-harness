@@ -27,7 +27,12 @@ class StubEngine extends WorkflowEngine {
       meta: request.meta,
       result,
       cancel: (reason?: string) => {
-        this.settle({ value: null, stopReason: 'cancelled', error: reason, agentsStarted: 0 })
+        this.settle({
+          value: null,
+          stopReason: 'cancelled',
+          agentsStarted: 0,
+          ...(reason === undefined ? {} : { error: reason }),
+        })
       },
       dispose: async () => { this.disposed += 1 },
     }
